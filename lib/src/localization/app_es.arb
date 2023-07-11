@@ -1,0 +1,42 @@
+{
+  "appTitle": "Cómo llegar",
+  "@appTitle": {
+    "description": "El titulo de la aplicación"
+  },
+
+  "map": "Mapa",
+  "planner": "Planear",
+  "list": "Lista",
+  "stops": "Paradas",
+  "settings": "Configuración",
+  "reloadBuses": "Recargar buses",
+  "noInformation": "Sin información",
+
+  "theme": "Tema",
+  "systemTheme": "Sistema",
+  "lightTheme": "Claro",
+  "darkTheme": "Oscuro",
+
+  "caution": "ATENCIÓN! Los recorridos, horarios y paradas pueden estar desactualizados, erróneos o ser inexistentes.",
+  "occupied": "Ocupado",
+
+  "early": "Adelantado",
+  "inTime": "En hora",
+  "late": "Atrasado",
+  "minutes": "minutos",
+
+  "endOfLine": "Fin de linea",
+  "selectRoute": "Selecciona una ruta",
+  "loading": "Cargando...",
+  "routesFound": "rutas encontradas",
+  "leave": "Salir",
+  "arrive": "Llegar",
+  "setDes": "Marcar destino",
+  "setOrg": "Marcar origen",
+
+  "noSF": "No corre los días Sábados, Domingos y Feriados",
+  "noDF": "No corre los días Domingos y Feriados",
+  "sd":"Corre solo los días Sábados y Domingos",
+  "noND":"No corre los días Domingos",
+  "noLV":"No corre desde Lunes a Viernes"
+}
