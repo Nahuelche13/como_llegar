@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # See https://www.dartlang.org/guides/libraries/private-files
 
 # Files and directories created by pub
@@ -26,7 +25,6 @@ doc/api/
 
 .flutter-plugins
 .flutter-plugins-dependencies
-=======
 # See https://www.dartlang.org/guides/libraries/private-files
 
 # Files and directories created by pub
@@ -129,4 +127,3 @@ doc/api/
 .flutter-plugins-dependencies
 pubspec.lock
 keys.dart
->>>>>>> 68991cf (Add files.)
