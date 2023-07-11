@@ -23,7 +23,7 @@ jobs:
           channel: 'stable'
           
       - name: Create key.dart file
-        run:  echo "${{ secrets.KEY_FILE }}" > lib/key.dart
+        run:  echo "${{ secrets.KEY_FILE }}" > lib/keys.dart
 
       - run: flutter pub get
       
