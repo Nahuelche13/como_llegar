@@ -37,7 +37,7 @@ jobs:
       # - name: Analyze project source
       #  run: dart analyze
 
-      - run: flutter build web
+      - run: flutter build web --base-href /${{ github.event.repository.name }}/
       
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
