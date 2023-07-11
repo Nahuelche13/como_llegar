@@ -31,7 +31,9 @@ dev_dependencies:
   flutter_lints: ^2.0.0
 
 flutter_icons:
-  android: true
+  # android: true
+  web: 
+    generate: true
   image_path: "assets/icon64.png"
   adaptive_icon_background: "#FFFFFF" # only available for Android 8.0 devices and above
   adaptive_icon_foreground: "assets/icon128.png" # only available for Android 8.0 devices and above
