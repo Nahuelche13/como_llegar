@@ -20,6 +20,8 @@ class MapPage extends StatelessWidget {
 
     if (args is LatLng) {
       center = args;
+    } else if (args is Bus) {
+      center = args.latLng;
     }
 
     return Scaffold(
@@ -55,9 +57,8 @@ class MapPage extends StatelessWidget {
               }), //Buses
           ValueListenableBuilder<List<Marker>>(
             valueListenable: Location.db.locationsNotifier,
-            builder:
-                (BuildContext context, List<Marker> locations, Widget? child) =>
-                    MarkerLayer(markers: locations),
+            builder: (var context, List<Marker> locations, var child) =>
+                MarkerLayer(markers: locations),
           ), //Location
         ],
       ),
