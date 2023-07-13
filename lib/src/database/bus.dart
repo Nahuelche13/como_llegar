@@ -1,12 +1,13 @@
-import 'dart:async';
-import 'dart:convert';
+import "dart:async";
+import "dart:convert";
 
-import 'package:como_llegar/keys.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:http/http.dart' as http;
-import 'package:latlong2/latlong.dart';
+import "package:flutter/material.dart";
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
+import "package:flutter_map/flutter_map.dart";
+import "package:http/http.dart" as http;
+import "package:latlong2/latlong.dart";
+
+import "../../keys.dart";
 
 class Bus {
   Bus({
@@ -47,8 +48,10 @@ class Bus {
   factory Bus.fromJson(Map<String, dynamic> json) {
     var p = json["properties"];
     return Bus(
-      latLng: LatLng(json["geometry"]["coordinates"][1],
-          json["geometry"]["coordinates"][0]),
+      latLng: LatLng(
+        json["geometry"]["coordinates"][1],
+        json["geometry"]["coordinates"][0],
+      ),
       //id: p["id"],
       rum: p["rum"],
       //p["est"],
@@ -111,22 +114,25 @@ class Bus {
   String? ico;
 
   Future bottomSheet(BuildContext context) {
-    List<Widget> busDetails = [];
-    busDetails.addAll([
-      Row(children: [const Icon(Icons.directions_bus_rounded), Text('$bus')]),
-      Row(children: [const Icon(Icons.departure_board), Text('$fec $hor')])
-    ]);
+    List<Widget> busDetails = [
+      Row(children: [const Icon(Icons.directions_bus_rounded), Text("$bus")]),
+      Row(children: [const Icon(Icons.departure_board), Text("$fec $hor")])
+    ];
     if (psj != null) {
-      busDetails.add(Row(children: [
-        const Icon(Icons.hail),
-        Text(() {
-          if (psj != null) {
-            return '$psj ($poc% ${AppLocalizations.of(context)!.occupied})';
-          } else {
-            return AppLocalizations.of(context)!.noInformation;
-          }
-        }())
-      ]));
+      busDetails.add(
+        Row(
+          children: [
+            const Icon(Icons.hail),
+            Text(() {
+              if (psj != null) {
+                return "$psj ($poc% ${AppLocalizations.of(context)!.occupied})";
+              } else {
+                return AppLocalizations.of(context)!.noInformation;
+              }
+            }())
+          ],
+        ),
+      );
     }
 
     return showModalBottomSheet(
@@ -134,26 +140,31 @@ class Bus {
         borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
       ),
       context: context,
-      builder: (builder) {
-        return Column(mainAxisSize: MainAxisSize.min, children: [
+      builder: (builder) => Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
           AppBar(
-            title: Row(children: [
-              const Icon(Icons.directions_bus_rounded),
-              Flexible(
+            title: Row(
+              children: [
+                const Icon(Icons.directions_bus_rounded),
+                Flexible(
                   child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                    Text('$lin/$tra'),
-                    Text('$lnm ($sal)', overflow: TextOverflow.fade)
-                  ]))
-            ]),
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("$lin/$tra"),
+                      Text("$lnm ($sal)", overflow: TextOverflow.fade)
+                    ],
+                  ),
+                )
+              ],
+            ),
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
             ),
             automaticallyImplyLeading: false,
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 24.0, right: 24.0, top: 8.0),
+            padding: const EdgeInsets.only(left: 24, right: 24, top: 8),
             child: Column(children: busDetails),
           ),
           Stepper(
@@ -161,7 +172,7 @@ class Bus {
                 Container(),
             steps: [
               Step(
-                title: Text('$p1n ($p1c)'),
+                title: Text("$p1n ($p1c)"),
                 subtitle: () {
                   if (reg == null) {
                     switch (ico?[2]) {
@@ -175,9 +186,13 @@ class Bus {
                         return null;
                     }
                   } else if (reg! > 0) {
-                    return Text("${AppLocalizations.of(context)!.late} $reg ${AppLocalizations.of(context)!.minutes}.");
+                    return Text(
+                      "${AppLocalizations.of(context)!.late} $reg ${AppLocalizations.of(context)!.minutes}.",
+                    );
                   } else if (reg! < 0) {
-                    return Text("${AppLocalizations.of(context)!.early} ${-reg!} ${AppLocalizations.of(context)!.minutes}.");
+                    return Text(
+                      "${AppLocalizations.of(context)!.early} ${-reg!} ${AppLocalizations.of(context)!.minutes}.",
+                    );
                   } else {
                     return Text(AppLocalizations.of(context)!.inTime);
                   }
@@ -187,40 +202,42 @@ class Bus {
               ),
               Step(
                 title: p2n != null
-                    ? Text('$p2n ($p2c)')
+                    ? Text("$p2n ($p2c)")
                     : Text(AppLocalizations.of(context)!.endOfLine),
                 content: Container(),
                 isActive: true,
               ),
             ],
           )
-        ]);
-      },
+        ],
+      ),
     );
   }
 
-  Marker toMarker(
-      {GestureTapCallback? onTap, GestureTapCallback? onDoubleTap}) {
-    return Marker(
-      height: 40,
-      width: 40,
-      point: latLng,
-      builder: (context) => Container(
-        decoration: BoxDecoration(
-          color: () {
-            Brightness brightness = Theme.of(context).brightness;
-            bool isDarkMode = brightness == Brightness.dark;
-            switch (ico?[2]) {
-              case "r":
-                return isDarkMode ? Colors.red[900] : Colors.red;
-              case "a":
-                return isDarkMode ? Colors.blue[900] : Colors.blueAccent;
-              case "o":
-              default:
-                return isDarkMode ? Colors.black : Colors.white;
-            }
+  Marker toMarker({
+    GestureTapCallback? onTap,
+    GestureTapCallback? onDoubleTap,
+  }) =>
+      Marker(
+        height: 40,
+        width: 40,
+        point: latLng,
+        builder: (context) => DecoratedBox(
+          decoration: BoxDecoration(
+            color: () {
+              Brightness brightness = Theme.of(context).brightness;
+              bool isDarkMode = brightness == Brightness.dark;
+              switch (ico?[2]) {
+                case "r":
+                  return isDarkMode ? Colors.red[900] : Colors.red;
+                case "a":
+                  return isDarkMode ? Colors.blue[900] : Colors.blueAccent;
+                case "o":
+                default:
+                  return isDarkMode ? Colors.black : Colors.white;
+              }
 
-            /*
+              /*
                   if (reg == null) {
                     return isDarkMode ? Colors.black : Colors.white;
                   }
@@ -231,18 +248,17 @@ class Bus {
                   } else {
                     return isDarkMode ? Colors.black : Colors.white;
                   }*/
-          }(),
-          shape: BoxShape.circle,
-        ),
-        child: InkWell(
-          onTap: onTap,
-          onDoubleTap: onDoubleTap,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Text('$lin'),
-              Transform.rotate(
+            }(),
+            shape: BoxShape.circle,
+          ),
+          child: InkWell(
+            onTap: onTap,
+            onDoubleTap: onDoubleTap,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text("$lin"),
+                Transform.rotate(
                   angle: rum != null && ico?[0] != "p" && bac != 1
                       ? rum! * (3.1416 / 180)
                       : 0,
@@ -257,22 +273,16 @@ class Bus {
                       default:
                         return const Icon(Icons.directions_bus_rounded);
                     }
-                  }())
-            ],
+                  }(),
+                )
+              ],
+            ),
           ),
         ),
-      ),
-    );
-  }
+      );
 }
 
 class Buses with ChangeNotifier {
-  late Timer _timer;
-
-  final ValueNotifier<List<Bus>> _buses = ValueNotifier<List<Bus>>([]);
-  ValueNotifier<List<Bus>> get busesNotifier => _buses;
-  List<Bus> get buses => _buses.value;
-
   Buses._() {
     requestBuses().then((value) => _buses.value = value);
     _timer = Timer.periodic(const Duration(seconds: 15), (_) {
@@ -285,6 +295,12 @@ class Buses with ChangeNotifier {
       }
     });
   }
+
+  late Timer _timer;
+
+  final ValueNotifier<List<Bus>> _buses = ValueNotifier<List<Bus>>([]);
+  ValueNotifier<List<Bus>> get busesNotifier => _buses;
+  List<Bus> get buses => _buses.value;
 
   static Buses db = Buses._();
 
@@ -306,7 +322,8 @@ class Buses with ChangeNotifier {
       // If the server did not return a 200 OK response,
       // then throw an exception.
       throw Exception(
-          'Failed to get data. Error code: ${response.statusCode}, ${response.reasonPhrase}');
+        "Failed to get data. Error code: ${response.statusCode}, ${response.reasonPhrase}",
+      );
     }
   }
 

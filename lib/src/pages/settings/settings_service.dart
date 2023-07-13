@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import "package:flutter/material.dart";
+import "package:shared_preferences/shared_preferences.dart";
 
-import '../../../keys.dart';
+import "../../../keys.dart";
 
 /// A service that stores and retrieves user settings.
 ///
@@ -31,11 +31,11 @@ class SettingsService {
     SharedPreferences instance = await SharedPreferences.getInstance();
     String themeString =
         {ThemeMode.light: "light", ThemeMode.dark: "dark"}[theme] ?? "system";
-    instance.setString("themeMode", themeString);
+    await instance.setString("themeMode", themeString);
   }
 
   Future<void> updateMapMode(String provider) async {
     SharedPreferences instance = await SharedPreferences.getInstance();
-    instance.setString("mapMode", provider);
+    await instance.setString("mapMode", provider);
   }
 }

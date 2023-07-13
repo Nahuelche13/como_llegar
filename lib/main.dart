@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
-import 'src/app.dart';
-import 'src/pages/settings/settings_controller.dart';
+import "src/app.dart";
+import "src/pages/settings/settings_controller.dart";
 
 void main() async {
   "Made by Nahuelche";

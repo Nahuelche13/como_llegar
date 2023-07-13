@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
+import "package:flutter/material.dart";
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
+import "package:flutter_localizations/flutter_localizations.dart";
 
-import 'pages/list_page.dart';
-import 'pages/map_page.dart';
-import 'pages/settings/settings_controller.dart';
-import 'pages/settings/settings_view.dart';
+import "pages/list_page.dart";
+import "pages/map_page.dart";
+import "pages/settings/settings_controller.dart";
+import "pages/settings/settings_view.dart";
 
 /// The Widget that configures your application.
 class MyApp extends StatelessWidget {
@@ -14,20 +14,14 @@ class MyApp extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    // Glue the SettingsController to the MaterialApp.
-    //
-    // The AnimatedBuilder Widget listens to the SettingsController for changes.
-    // Whenever the user updates their settings, the MaterialApp is rebuilt.
-    return AnimatedBuilder(
+  Widget build(BuildContext context) => AnimatedBuilder(
       animation: SettingsController.controller,
-      builder: (BuildContext context, Widget? child) {
-        return MaterialApp(
+      builder: (BuildContext context, Widget? child) => MaterialApp(
           // Providing a restorationScopeId allows the Navigator built by the
           // MaterialApp to restore the navigation stack when a user leaves and
           // returns to the app after it has been killed while running in the
           // background.
-          restorationScopeId: 'app',
+          restorationScopeId: "app",
 
           // Provide the generated AppLocalizations to the MaterialApp. This
           // allows descendant Widgets to display the correct translations
@@ -39,7 +33,7 @@ class MyApp extends StatelessWidget {
             GlobalCupertinoLocalizations.delegate,
           ],
           supportedLocales: const [
-            Locale('es', ''), // Spanish, no country code
+            Locale("es", ""), // Spanish, no country code
           ],
 
           // Use AppLocalizations to configure the correct application title
@@ -62,18 +56,14 @@ class MyApp extends StatelessWidget {
 
           // Define a function to handle named routes in order to support
           // Flutter web url navigation and deep linking.
-          onGenerateRoute: (RouteSettings routeSettings) {
-            return MaterialPageRoute<void>(
+          onGenerateRoute: (RouteSettings routeSettings) => MaterialPageRoute<void>(
               settings: routeSettings,
               builder: (BuildContext context) => switch (routeSettings.name) {
                 SettingsView.routeName => const SettingsView(),
                 ListPage.routeName => const ListPage(),
                 _ => const MapPage()
               },
-            );
-          },
-        );
-      },
+            ),
+        ),
     );
-  }
 }

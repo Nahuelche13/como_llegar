@@ -1,13 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import "package:flutter/material.dart";
+import "package:flutter_gen/gen_l10n/app_localizations.dart";
 
-import '../pages/settings/settings_view.dart';
-import '../pages/list_page.dart';
-import '../pages/map_page.dart';
+import "../pages/list_page.dart";
+import "../pages/map_page.dart";
+import "../pages/settings/settings_view.dart";
 
 Drawer drawerWidget(BuildContext context) => Drawer(
       child: ListView(
-        restorationId: 'drawer',
+        restorationId: "drawer",
         padding: EdgeInsets.zero,
         children: [
           DrawerHeader(
@@ -40,7 +40,9 @@ Drawer drawerWidget(BuildContext context) => Drawer(
             leading: const Icon(Icons.settings),
             onTap: () {
               Navigator.restorablePopAndPushNamed(
-                  context, SettingsView.routeName);
+                context,
+                SettingsView.routeName,
+              );
             },
           ),
         ],
