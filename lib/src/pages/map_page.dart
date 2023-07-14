@@ -31,7 +31,7 @@ class MapPage extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.refresh_rounded),
             tooltip: AppLocalizations.of(context)!.reloadBuses,
-            onPressed: () async => Buses.db.forceUpdate(),
+            onPressed: Buses.db.forceUpdate,
           ),
         ],
       ),
@@ -46,9 +46,7 @@ class MapPage extends StatelessWidget {
               markers: buses
                   .map<Marker>(
                     (e) => e.toMarker(
-                      onTap: () async {
-                        await e.bottomSheet(context);
-                      },
+                      onTap: () async => await e.bottomSheet(context),
                     ),
                   )
                   .toList(),

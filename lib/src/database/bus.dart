@@ -123,13 +123,9 @@ class Bus {
         Row(
           children: [
             const Icon(Icons.hail),
-            Text(() {
-              if (psj != null) {
-                return "$psj ($poc% ${AppLocalizations.of(context)!.occupied})";
-              } else {
-                return AppLocalizations.of(context)!.noInformation;
-              }
-            }())
+            Text(psj != null
+                ? "$psj ($poc% ${AppLocalizations.of(context)!.occupied})"
+                : AppLocalizations.of(context)!.noInformation)
           ],
         ),
       );
@@ -173,30 +169,19 @@ class Bus {
             steps: [
               Step(
                 title: Text("$p1n ($p1c)"),
-                subtitle: () {
-                  if (reg == null) {
-                    switch (ico?[2]) {
-                      case "r":
-                        return Text(AppLocalizations.of(context)!.late);
-                      case "o":
-                        return Text(AppLocalizations.of(context)!.inTime);
-                      case "a":
-                        return Text(AppLocalizations.of(context)!.early);
-                      default:
-                        return null;
-                    }
-                  } else if (reg! > 0) {
-                    return Text(
-                      "${AppLocalizations.of(context)!.late} $reg ${AppLocalizations.of(context)!.minutes}.",
-                    );
-                  } else if (reg! < 0) {
-                    return Text(
-                      "${AppLocalizations.of(context)!.early} ${-reg!} ${AppLocalizations.of(context)!.minutes}.",
-                    );
-                  } else {
-                    return Text(AppLocalizations.of(context)!.inTime);
-                  }
-                }(),
+                subtitle: switch (reg) {
+                  null => switch (ico?[2]) {
+                      "r" => Text(AppLocalizations.of(context)!.late),
+                      "o" => Text(AppLocalizations.of(context)!.inTime),
+                      "a" => Text(AppLocalizations.of(context)!.early),
+                      _ => null
+                    },
+                  > 0 => Text(
+                      "${AppLocalizations.of(context)!.late} $reg ${AppLocalizations.of(context)!.minutes}."),
+                  < 0 => Text(
+                      "${AppLocalizations.of(context)!.early} ${-reg!} ${AppLocalizations.of(context)!.minutes}."),
+                  _ => Text(AppLocalizations.of(context)!.inTime)
+                },
                 content: Container(),
                 isActive: true,
               ),
@@ -214,6 +199,51 @@ class Bus {
     );
   }
 
+  Color getBackgroundColor(context) {
+    Brightness brightness = Theme.of(context).brightness;
+    bool isDarkMode = brightness == Brightness.dark;
+
+    return switch (ico?[2]) {
+          "r" => isDarkMode ? Colors.red[900] : Colors.red,
+          "a" => isDarkMode ? Colors.blue[900] : Colors.blueAccent,
+          "o" || _ => isDarkMode ? Colors.black : Colors.white
+        } ??
+        Colors.black;
+    /*
+    if (reg == null) {
+      return isDarkMode ? Colors.black : Colors.white;
+    }
+    if (reg! > 0) {
+      return isDarkMode ? Colors.red[900] : Colors.red;
+    } else if (reg! < 0) {
+      return isDarkMode ? Colors.blue[900] : Colors.blue;
+    } else {
+      return isDarkMode ? Colors.black : Colors.white;
+    }*/
+  }
+  Color getForegroundColor(context) {
+    Brightness brightness = Theme.of(context).brightness;
+    bool isDarkMode = brightness == Brightness.dark;
+
+    return switch (ico?[2]) {
+          "r" => isDarkMode ? Colors.red : Colors.red[900],
+          "a" => isDarkMode ? Colors.blueAccent : Colors.blue[900],
+          "o" || _ => isDarkMode ? Colors.white : Colors.black
+        } ??
+        Colors.black;
+    /*
+    if (reg == null) {
+      return isDarkMode ? Colors.black : Colors.white;
+    }
+    if (reg! > 0) {
+      return isDarkMode ? Colors.red[900] : Colors.red;
+    } else if (reg! < 0) {
+      return isDarkMode ? Colors.blue[900] : Colors.blue;
+    } else {
+      return isDarkMode ? Colors.black : Colors.white;
+    }*/
+  }
+
   Marker toMarker({
     GestureTapCallback? onTap,
     GestureTapCallback? onDoubleTap,
@@ -224,31 +254,7 @@ class Bus {
         point: latLng,
         builder: (context) => DecoratedBox(
           decoration: BoxDecoration(
-            color: () {
-              Brightness brightness = Theme.of(context).brightness;
-              bool isDarkMode = brightness == Brightness.dark;
-              switch (ico?[2]) {
-                case "r":
-                  return isDarkMode ? Colors.red[900] : Colors.red;
-                case "a":
-                  return isDarkMode ? Colors.blue[900] : Colors.blueAccent;
-                case "o":
-                default:
-                  return isDarkMode ? Colors.black : Colors.white;
-              }
-
-              /*
-                  if (reg == null) {
-                    return isDarkMode ? Colors.black : Colors.white;
-                  }
-                  if (reg! > 0) {
-                    return isDarkMode ? Colors.red[900] : Colors.red;
-                  } else if (reg! < 0) {
-                    return isDarkMode ? Colors.blue[900] : Colors.blue;
-                  } else {
-                    return isDarkMode ? Colors.black : Colors.white;
-                  }*/
-            }(),
+            color: getBackgroundColor(context),
             shape: BoxShape.circle,
           ),
           child: InkWell(
@@ -266,13 +272,10 @@ class Bus {
                     if (bac == 1) {
                       return const Icon(Icons.accessible_rounded);
                     }
-                    switch (ico?[0]) {
-                      case "p":
-                        return const Icon(Icons.pause_rounded);
-                      case "o":
-                      default:
-                        return const Icon(Icons.directions_bus_rounded);
-                    }
+                    return switch (ico?[0]) {
+                      "p" => const Icon(Icons.pause_rounded),
+                      "o" || _ => const Icon(Icons.directions_bus_rounded)
+                    };
                   }(),
                 )
               ],
@@ -284,14 +287,10 @@ class Bus {
 
 class Buses with ChangeNotifier {
   Buses._() {
-    requestBuses().then((value) => _buses.value = value);
+    forceUpdate();
     _timer = Timer.periodic(const Duration(seconds: 15), (_) {
       if (_buses.hasListeners) {
-        requestBuses().then((value) {
-          if (_buses.value != value) {
-            return _buses.value = value;
-          }
-        });
+        forceUpdate();
       }
     });
   }
@@ -327,11 +326,12 @@ class Buses with ChangeNotifier {
     }
   }
 
-  Future forceUpdate() async => requestBuses().then((value) {
-        if (_buses.value != value) {
-          return _buses.value = value;
-        }
-      });
+  Future forceUpdate() async {
+    List<Bus> list = await requestBuses();
+    if (_buses.value != list) {
+      return _buses.value = list;
+    }
+  }
 
   @override
   void dispose() {

@@ -18,7 +18,7 @@ class ListPage extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.refresh_rounded),
               tooltip: AppLocalizations.of(context)!.reloadBuses,
-              onPressed: () async => Buses.db.forceUpdate(),
+              onPressed: Buses.db.forceUpdate,
             ),
           ],
         ),
@@ -33,21 +33,7 @@ class ListPage extends StatelessWidget {
               itemBuilder: (BuildContext context, int i) {
                 Bus bus = buses[i];
                 return ListTile(
-                  iconColor: () {
-                    Brightness brightness = Theme.of(context).brightness;
-                    bool isDarkMode = brightness == Brightness.dark;
-
-                    if (bus.reg == null) {
-                      return isDarkMode ? Colors.white : Colors.black;
-                    }
-                    if (bus.reg! > 0) {
-                      return isDarkMode ? Colors.red[900] : Colors.red;
-                    } else if (bus.reg! < 0) {
-                      return isDarkMode ? Colors.blue[900] : Colors.blue;
-                    } else {
-                      return isDarkMode ? Colors.white : Colors.black;
-                    }
-                  }(),
+                  iconColor: bus.getForegroundColor(context),
                   leading: Icon(
                     bus.bac == 0
                         ? Icons.directions_bus_rounded
