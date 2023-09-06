@@ -1,5 +1,4 @@
 import "package:flutter/material.dart";
-import "package:flutter_gen/gen_l10n/app_localizations.dart";
 
 import "../database/bus.dart";
 import "../widgets/drawer_widget.dart";
@@ -13,11 +12,11 @@ class ListPage extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
         restorationId: "list",
         appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.list),
+          title: const Text("Lista"),
           actions: <Widget>[
             IconButton(
               icon: const Icon(Icons.refresh_rounded),
-              tooltip: AppLocalizations.of(context)!.reloadBuses,
+              tooltip: "Recargar",
               onPressed: Buses.db.forceUpdate,
             ),
           ],

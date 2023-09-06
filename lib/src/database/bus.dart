@@ -2,7 +2,6 @@ import "dart:async";
 import "dart:convert";
 
 import "package:flutter/material.dart";
-import "package:flutter_gen/gen_l10n/app_localizations.dart";
 import "package:flutter_map/flutter_map.dart";
 import "package:http/http.dart" as http;
 import "package:latlong2/latlong.dart";
@@ -123,9 +122,7 @@ class Bus {
         Row(
           children: [
             const Icon(Icons.hail),
-            Text(psj != null
-                ? "$psj ($poc% ${AppLocalizations.of(context)!.occupied})"
-                : AppLocalizations.of(context)!.noInformation)
+            Text(psj != null ? "$psj ($poc% ocupado)" : "Sin información")
           ],
         ),
       );
@@ -171,16 +168,14 @@ class Bus {
                 title: Text("$p1n ($p1c)"),
                 subtitle: switch (reg) {
                   null => switch (ico?[2]) {
-                      "r" => Text(AppLocalizations.of(context)!.late),
-                      "o" => Text(AppLocalizations.of(context)!.inTime),
-                      "a" => Text(AppLocalizations.of(context)!.early),
+                      "r" => const Text("Tarde"),
+                      "o" => const Text("En hora"),
+                      "a" => const Text("Temprano"),
                       _ => null
                     },
-                  > 0 => Text(
-                      "${AppLocalizations.of(context)!.late} $reg ${AppLocalizations.of(context)!.minutes}."),
-                  < 0 => Text(
-                      "${AppLocalizations.of(context)!.early} ${-reg!} ${AppLocalizations.of(context)!.minutes}."),
-                  _ => Text(AppLocalizations.of(context)!.inTime)
+                  > 0 => Text("Trade $reg minutos."),
+                  < 0 => Text("Adelantado ${-reg!} minutos."),
+                  _ => const Text("En hora")
                 },
                 content: Container(),
                 isActive: true,
@@ -188,7 +183,7 @@ class Bus {
               Step(
                 title: p2n != null
                     ? Text("$p2n ($p2c)")
-                    : Text(AppLocalizations.of(context)!.endOfLine),
+                    : const Text("Fin de línea"),
                 content: Container(),
                 isActive: true,
               ),
@@ -221,6 +216,7 @@ class Bus {
       return isDarkMode ? Colors.black : Colors.white;
     }*/
   }
+
   Color getForegroundColor(context) {
     Brightness brightness = Theme.of(context).brightness;
     bool isDarkMode = brightness == Brightness.dark;

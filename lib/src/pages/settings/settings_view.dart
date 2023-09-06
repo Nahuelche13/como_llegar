@@ -1,5 +1,4 @@
 import "package:flutter/material.dart";
-import "package:flutter_gen/gen_l10n/app_localizations.dart";
 
 import "../../../keys.dart";
 import "settings_controller.dart";
@@ -17,7 +16,7 @@ class SettingsView extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
         restorationId: "settings",
         appBar: AppBar(
-          title: Text(AppLocalizations.of(context)!.settings),
+          title: const Text("Configuración"),
         ),
         body: Padding(
           padding: const EdgeInsets.all(16),
@@ -32,7 +31,7 @@ class SettingsView extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(AppLocalizations.of(context)!.map),
+                    const Text("Mapa"),
                     DropdownButton<String>(
                       // Read the selected themeMode from the controller
                       value: SettingsController.controller.mapMode,
@@ -52,32 +51,31 @@ class SettingsView extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(AppLocalizations.of(context)!.theme),
+                    const Text("Tema"),
                     DropdownButton<ThemeMode>(
                       // Read the selected themeMode from the controller
                       value: SettingsController.controller.themeMode,
                       // Call the updateThemeMode method any time the user selects a theme.
                       onChanged: SettingsController.controller.updateThemeMode,
-                      items: [
+                      items: const [
                         DropdownMenuItem(
                           value: ThemeMode.system,
-                          child:
-                              Text(AppLocalizations.of(context)!.systemTheme),
+                          child: Text("Sistema"),
                         ),
                         DropdownMenuItem(
                           value: ThemeMode.light,
-                          child: Text(AppLocalizations.of(context)!.lightTheme),
+                          child: Text("Claro"),
                         ),
                         DropdownMenuItem(
                           value: ThemeMode.dark,
-                          child: Text(AppLocalizations.of(context)!.darkTheme),
+                          child: Text("Oscuro"),
                         )
                       ],
                     )
                   ],
                 ),
-                Text(
-                  AppLocalizations.of(context)!.caution,
+                const Text(
+                  "ATENCIÓN! Los recorridos, horarios y paradas pueden estar desactualizados, erróneos o ser inexistentes.",
                   overflow: TextOverflow.clip,
                   textAlign: TextAlign.justify,
                 )

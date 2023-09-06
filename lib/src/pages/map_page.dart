@@ -1,5 +1,4 @@
 import "package:flutter/material.dart";
-import "package:flutter_gen/gen_l10n/app_localizations.dart";
 import "package:flutter_map/flutter_map.dart";
 import "package:latlong2/latlong.dart";
 
@@ -26,11 +25,11 @@ class MapPage extends StatelessWidget {
     return Scaffold(
       restorationId: "map",
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.map),
+        title: const Text("Mapa"),
         actions: <Widget>[
           IconButton(
             icon: const Icon(Icons.refresh_rounded),
-            tooltip: AppLocalizations.of(context)!.reloadBuses,
+            tooltip: "Recargar",
             onPressed: Buses.db.forceUpdate,
           ),
         ],

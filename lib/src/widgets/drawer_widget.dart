@@ -1,5 +1,4 @@
 import "package:flutter/material.dart";
-import "package:flutter_gen/gen_l10n/app_localizations.dart";
 
 import "../pages/list_page.dart";
 import "../pages/map_page.dart";
@@ -10,33 +9,33 @@ Drawer drawerWidget(BuildContext context) => Drawer(
         restorationId: "drawer",
         padding: EdgeInsets.zero,
         children: [
-          DrawerHeader(
+          const DrawerHeader(
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.directions_bus_rounded),
-                  Text(AppLocalizations.of(context)!.appTitle)
+                  Icon(Icons.directions_bus_rounded),
+                  Text("Cómo llegar")
                 ],
               ),
             ),
           ),
           ListTile(
-            title: Text(AppLocalizations.of(context)!.map),
+            title: const Text("Mapa"),
             leading: const Icon(Icons.map_rounded),
             onTap: () {
               Navigator.restorablePopAndPushNamed(context, MapPage.routeName);
             },
           ),
           ListTile(
-            title: Text(AppLocalizations.of(context)!.list),
+            title: const Text("Lista"),
             leading: const Icon(Icons.list_rounded),
             onTap: () {
               Navigator.restorablePopAndPushNamed(context, ListPage.routeName);
             },
           ),
           ListTile(
-            title: Text(AppLocalizations.of(context)!.settings),
+            title: const Text("Configuración"),
             leading: const Icon(Icons.settings),
             onTap: () {
               Navigator.restorablePopAndPushNamed(
