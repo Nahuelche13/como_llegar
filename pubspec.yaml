@@ -11,25 +11,24 @@ environment:
 
 dependencies:
   http: ^1.1.0
+  path:
+  sqflite: ^2.3.0
   latlong2: ^0.9.0
   geolocator: ^10.0.0
-  flutter_map: ^5.0.0
+  flutter_map: ^6.0.0
   shared_preferences: ^2.2.1
   cached_network_image: ^3.2.3
   flutter:
     sdk: flutter
-  sliding_up_panel: ^2.0.0+1
 
 dev_dependencies:
   flutter_launcher_icons: ^0.13.1
   flutter_native_splash: ^2.2.6
 
-  flutter_lints: ^2.0.0
+  flutter_lints: ^3.0.0
 
-flutter_icons:
-  # android: true
-  web: 
-    generate: true
+flutter_launcher_icons:
+  android: true
   image_path: "assets/icon64.png"
   adaptive_icon_background: "#FFFFFF" # only available for Android 8.0 devices and above
   adaptive_icon_foreground: "assets/icon128.png" # only available for Android 8.0 devices and above

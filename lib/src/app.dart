@@ -1,9 +1,10 @@
+import "package:como_llegar/src/views/pages/list_page.dart";
+import "package:como_llegar/src/views/pages/map_page.dart";
+import "package:como_llegar/src/views/pages/settings/settings_controller.dart";
+import "package:como_llegar/src/views/pages/settings/settings_view.dart";
+import "package:como_llegar/src/views/pages/stops_page.dart";
+import 'package:como_llegar/src/views/pages/shape_page.dart';
 import "package:flutter/material.dart";
-
-import "pages/list_page.dart";
-import "pages/map_page.dart";
-import "pages/settings/settings_controller.dart";
-import "pages/settings/settings_view.dart";
 
 /// The Widget that configures your application.
 class MyApp extends StatelessWidget {
@@ -20,10 +21,6 @@ class MyApp extends StatelessWidget {
           // returns to the app after it has been killed while running in the
           // background.
           restorationScopeId: "app",
-
-          supportedLocales: const [
-            Locale("es", ""), // Spanish, no country code
-          ],
 
           // Define a light and dark color theme. Then, read the user's
           // preferred ThemeMode (light, dark, or system default) from the
@@ -43,6 +40,8 @@ class MyApp extends StatelessWidget {
             builder: (BuildContext context) => switch (routeSettings.name) {
               SettingsView.routeName => const SettingsView(),
               ListPage.routeName => const ListPage(),
+              StopsPage.routeName => const StopsPage(),
+              ShapePage.routeName => const ShapePage(),
               _ => const MapPage()
             },
           ),

@@ -127,3 +127,4 @@ doc/api/
 .flutter-plugins-dependencies
 pubspec.lock
 keys.dart
+.metadata
