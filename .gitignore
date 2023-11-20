@@ -128,3 +128,4 @@ doc/api/
 pubspec.lock
 keys.dart
 .metadata
+android/
