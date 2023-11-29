@@ -36,8 +36,7 @@ class Persistence {
       final batch = db.batch();
       batch.update("last_update", {"timestamp": lastUpdate});
 
-      var response = await http.get(Uri.parse(
-          "https://raw.githubusercontent.com/Nahuelche13/como_llegar/main/assets/gtfs/stops.txt"));
+      var response = await http.get(Uri.parse("${gtfsURL}stops.txt"));
       var rows = response.body.split("\n");
 
       batch.delete("stops");
@@ -54,8 +53,7 @@ class Persistence {
         }
       }
 
-      response = await http.get(Uri.parse(
-          "https://raw.githubusercontent.com/Nahuelche13/como_llegar/main/assets/gtfs/routes.txt"));
+      response = await http.get(Uri.parse("${gtfsURL}routes.txt"));
       rows = response.body.split("\n");
       batch.delete("routes");
       for (int i = 1; i < rows.length; i++) {
@@ -69,8 +67,7 @@ class Persistence {
         }
       }
 
-      response = await http.get(Uri.parse(
-          "https://raw.githubusercontent.com/Nahuelche13/como_llegar/main/assets/gtfs/trips.txt"));
+      response = await http.get(Uri.parse("${gtfsURL}trips.txt"));
       rows = response.body.split("\n");
       batch.delete("trips");
       for (int i = 1; i < rows.length; i++) {
@@ -83,13 +80,12 @@ class Persistence {
             "trip_headsign": columns[3].replaceAll('"', ''),
             "trip_short_name": columns[4].replaceAll('"', ''),
             "direction_id": columns[5],
-            "shape_id": columns[7],
+            "shape_id": columns[6],
           });
         }
       }
 
-      response = await http.get(Uri.parse(
-          "https://raw.githubusercontent.com/Nahuelche13/como_llegar/main/assets/gtfs/stop_times.txt"));
+      response = await http.get(Uri.parse("${gtfsURL}stop_times.txt"));
       rows = response.body.split("\n");
       batch.delete("stop_times");
       for (int i = 1; i < rows.length; i++) {
@@ -104,8 +100,7 @@ class Persistence {
         }
       }
 
-      response = await http.get(Uri.parse(
-          "https://raw.githubusercontent.com/Nahuelche13/como_llegar/main/assets/gtfs/shapes.txt"));
+      response = await http.get(Uri.parse("${gtfsURL}shapes.txt"));
       rows = response.body.split("\n");
       batch.delete("shapes");
       for (int i = 1; i < rows.length; i++) {
@@ -203,8 +198,9 @@ CREATE TABLE shapes
   }
 
   static Future<Iterable<Trip>> allTrips() async {
-    var tripsMap = await i.db.query("trips");
-    return tripsMap.map((e) => Trip.fromMap(e));
+    var tripsMap = await i.db.rawQuery("SELECT DISTINCT trip_id, trip_headsign, trip_short_name, shapes.shape_id FROM trips INNER JOIN shapes ON shapes.shape_id==trips.shape_id");
+    return tripsMap.map((e) =>
+        Trip.fromMap(e));
   }
 
   static Future<List<LatLng>> shape(String id) async {

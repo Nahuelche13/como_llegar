@@ -53,7 +53,7 @@ class ShapePage extends StatelessWidget {
                                   onChanged: (int? value) async {
                                     path.value = Polygon(
                                       points: await Persistence.shape(
-                                          data.data!.elementAt(index).routeId),
+                                          data.data!.elementAt(index).shapeId),
                                     );
                                     setState(() => selectedRadio = value);
                                   },
